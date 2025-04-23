@@ -5,8 +5,9 @@ const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 dotenv.config();
 
-
 const app = express();
+const PORT = process.env.PORT || 5000;
+
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -28,18 +29,17 @@ app.post("/api/request-access", async (req, res) => {
       from: '"Access Request" <youremail@gmail.com>', // Sender's email
       to: "mrfarrukhaziz@gmail.com", // Send to your email
       subject: "Resume Access Request",
-      text: `User with email: ${email} has requested access to your resume. Please approve/reject manually.`,
+      text: `User with email: ${email} has requested access to your resume.`,
       html: `<b>User with email: ${email} has requested access to your resume.</b>`,
     });
 
-    res.status(200).json({ message: "Request received. You’ll be notified once approved." });
+    res.status(200).json({ message: "Request received. You'll be notified once approved." });
   } catch (error) {
     console.error("Error sending email:", error);
     res.status(500).json({ message: "Failed to send request. Please try again later." });
   }
 });
 
-const port = 5000;
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
